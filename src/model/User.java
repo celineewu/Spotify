@@ -1,4 +1,4 @@
-//package placeholder;
+package model;
 
 /*
  Abstract superclass.
@@ -29,7 +29,7 @@ public abstract class User {
      Polymorphic method.
      Each subclass decides formatting behavior.
     */
-    public abstract String Ads();
+    public abstract String ads();
 
     @Override
     public String toString() {
