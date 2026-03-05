@@ -5,10 +5,9 @@ public class Song implements Comparable<Song>{
     private Genre genre;
     private double time;
 
-    public Song(String title, Genre genre, double time) {
+    public Song(String title, Genre genre) {
         this.title = title;
         this.genre = genre;
-        this.time = time;
     }
 
     //Getters
@@ -20,10 +19,6 @@ public class Song implements Comparable<Song>{
         return genre;
     }
 
-    public double getTime() {
-        return time;
-    }
-
     //Setters
     public void setTitle(String title) {
         this.title = title;
@@ -31,10 +26,6 @@ public class Song implements Comparable<Song>{
 
     public void setGenre(Genre genre) {
         this.genre = genre;
-    }
-
-    public void setTime(double time) {
-        this.time = time;
     }
 
 
@@ -45,6 +36,6 @@ public class Song implements Comparable<Song>{
 
     @Override
     public String toString() {
-        return "Title: " + title + "\nGenre: " + genre + "\nTime: " + time;
+        return title + ", " + genre;
     }
 }
