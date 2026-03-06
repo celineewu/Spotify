@@ -85,23 +85,30 @@ public class SongHandler {
             if (title.equalsIgnoreCase(song.getTitle())) {
                 return song;
             }
-
         }
         return null;
     }
 
-    public static void removeSongFromArray(String title) {
+    public ArrayList<Song> removeSong(String title) {
+        for (int i = 0; i < songs.size(); i++) {
+            if (title.equalsIgnoreCase(songs.get(i).getTitle())) {
+                songs.remove(i); //fjerner sang fra ArrayList
+                writeToFile(); //opdatere txt
+                return songs;
+            }
+        }
+        return null;
+    }
 
+    public void editSong(Song song, String newTitle) {
+        song.setTitle(newTitle);
+        writeToFile();
     }
 
 
 
 
-
-
-
-
-    public ArrayList<String> getSongNames() {
+    /*public ArrayList<String> getSongNames() {
 
         ArrayList<String> songs = new ArrayList<>();
 
@@ -122,80 +129,6 @@ public class SongHandler {
 
         return songs;
     }
-
-    public ArrayList<Song> loadSong(String songName) {
-
-        ArrayList<Song> songs = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-
-            String line;
-            boolean foundSong = false;
-
-            while ((line = reader.readLine()) != null) {
-
-                if (line.equals(songName)) {
-                    foundSong = true;
-                    continue;
-                }
-
-                if (foundSong) {
-
-                    if (line.isEmpty()) break;
-
-                    String[] parts = line.split(",");
-
-                    String title = parts[0];
-                    Genre genre = Genre.valueOf(parts[1]);
-
-                    Song song = new Song(title, genre);
-
-                    songs.add(song);
-
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return songs;
-    }
-
-    // ------------------------------------------------------------
-    // VERSION USING FILEWRITER (Not BufferedWriter)
-    // ------------------------------------------------------------
-    /*public void writeShoppingList(ArrayList<Ingredient> ingredients) {
-
-        FileWriter writer = null;
-
-        try {
-
-            writer = new FileWriter("src\\Lesson15\\Recipes\\shopping_list.txt");
-
-            for (Ingredient ingredient : ingredients) {
-
-                // Polymorphism in action
-                writer.write(ingredient.formatForShoppingList());
-
-                // FileWriter has no newLine() method
-                writer.write("\n");
-            }
-
-            writer.flush(); // ensure data is written
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }*/
+*/
 
 }

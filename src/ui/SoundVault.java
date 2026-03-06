@@ -1,107 +1,45 @@
 package ui;
 
-import model.*;
+import model.User;
 import service.*;
 
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class SoundVault {
 
-    /*Programmet skal kunne:
-    * tilføje en sang (title, genre (giv feedback hvis der gives en forkert genre))
-    * fjerne en sang (giv feedback hvis sang ikke findes)
-    * finde sang baseret på titel (giv feedback hvis sang ikke findes)
-    * vise alle sange i listen
-    * sortere listen
-    * giv mulighed for at redigere titlen på en sang*/
-
     public static void main (String[] args) {
 
-        Scanner scan = new Scanner(System.in);
         SongHandler handler = new SongHandler();
+        Scanner scanner = new Scanner(System.in);
 
-        handler.readSongFromFile(); //Sangene i txt bliver læst ind
+        ArrayList<String> songs = getSongs(handler);
 
-        System.out.println("Velkommen til dit hjemmelavede Spotify");
+        printSongs(songs);
 
-        menu(scan, handler);
+        int choice = getUserChoice(scanner);
+
+        handleChoice(choice, songs, handler, scanner);
+
+        scanner.close();
+
 
     }
 
-    public static void menu(Scanner scan, SongHandler handler) {
-        boolean checkLoop = true;
-
-        while(checkLoop) {
-            System.out.print("Vælg en mulighed:\n1.Tilføj ny sang\n2.Fjern en sang\n3.Vis alle sange\n4.Søg efter en sang" +
-                    "\n5.Rediger en sang\n6.Sort sanglisten\n7.Afslut programmet\n");
-            String answer = scan.nextLine();
-
-            switch (answer.toLowerCase()){
-                case "1":
-                    System.out.println("Skriv sangens title: ");
-                    String title = scan.nextLine();
-                    System.out.println("Hvilken genre har sangen: ");
-                    String genre = scan.nextLine();
-                    if (genre.equalsIgnoreCase("rock")) {
-                        handler.addSong(new Song(title, Genre.ROCK));
-                    } else if (genre.equalsIgnoreCase("pop")) {
-                        handler.addSong(new Song(title, Genre.POP));
-                    } else if (genre.equalsIgnoreCase("jazz")) {
-                        handler.addSong(new Song(title, Genre.JAZZ));
-                    } else {
-                        System.out.println("Unknown genre");
-                    }
-                    break;
-                case "2":
-                    System.out.println("Skriv titlen på den sang der skal fjernes: ");
-                    String fjernTitle = scan.nextLine();
-                    //Kald metode fra SongHandler til at fjerne sang både fra array og txt
-                    break;
-                case "3":
-                    System.out.println(handler.getStringOfSongs());
-                    break;
-                case "4":
-                    System.out.println("Indtast title: ");
-                    String searchTitle = scan.nextLine();
-                    Song foundSong = handler.searchTitle(searchTitle);
-                    if(foundSong == null) {
-                        System.out.println("The song was not found on the list :(");
-                    } else {
-                        System.out.println(foundSong);
-                    }
-                    break;
-                case "5":
-                    System.out.println("Indtast titlen på den sang du gerne vil redigere: ");
-                    String redigerTitle = scan.nextLine();
-                    break;
-                case "6":
-                    Collections.sort(handler.getSongs());
-                    System.out.println(handler.getSongs());
-                    break;
-                case "7":
-                    System.out.println("Tak for denne gang :)");
-                    checkLoop = false;
-                    break;
-                default:
-                    System.out.println("Ukendt input");
-            }
-
-        }
-
+    /*
+     Retrieves songs from file handler
+    */
+    private static ArrayList<String> getSongs(SongHandler handler) {
+        return handler.getSongNames();
     }
 
+    /*
+     Prints available songs
+    */
+    private static void printSongs(ArrayList<String> songs) {
 
-
-    private static ArrayList<Song> getSongs(SongHandler handler) {
-        //return handler.getSongNames();
-        return handler.readSongFromFile();
-    }
-
-    private static void printSongs(ArrayList<Song> songs) {
-
-        System.out.println("Song list: ");
+        System.out.println("Songs in your playlist:");
 
         for (int i = 0; i < songs.size(); i++) {
             System.out.println((i + 1) + ". " + songs.get(i));
@@ -113,30 +51,38 @@ public class SoundVault {
     */
     private static int getUserChoice(Scanner scanner) {
 
-        System.out.print("Choose a recipe number: ");
+        System.out.print("Velkommen til hjemmelavede Spotify! Vælg en mulighed:\n" +
+                "1. Tilføj ny sang\n2. Fjern en sang\n3. Vis alle sang\n4. Søg efter en sang\n" +
+                "5. Søg efter en sang\n6. Rediger en sang\n7. Sorter sanglisten\n8. Afslut programmet\n");
+
         return scanner.nextInt();
     }
 
     /*
      Handles user selection logic
     */
-    /*private static void handleChoice(int choice,
+    private static void handleChoice(int choice,
                                      ArrayList<String> songs,
-                                     SongHandler handler) {
+                                     SongHandler handler, Scanner scanner) {
 
-        if (choice > 0 && choice <= songs.size()) {
+        if (choice == 1) {
+            System.out.println("Title: ");
+            String title = scanner.nextLine();
+            System.out.println("Genre: ");
+            String genre = scanner.nextLine();
+            System.out.println("Duration: ");
+            double duration = scanner.nextDouble();
 
-            String selectedRecipe = songs.get(choice - 1);
 
-            ArrayList<Song> song =
-                    handler.loadSong(selectedRecipe);
 
-            handler.writeShoppingList(song);
 
-            System.out.println("Shopping list created successfully.");
 
         } else {
             System.out.println("Invalid choice.");
         }
-    }*/
+    }
+
+
+
+
 }
