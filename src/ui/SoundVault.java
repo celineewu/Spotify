@@ -19,7 +19,9 @@ public class SoundVault {
 
         ArrayList<Song> songs = handler.getSongs();
 
-        System.out.println("Velkommen til hjemmelavede Spotify!");
+        System.out.println("""
+                Velkommen til hjemmelavede Spotify!
+                ------------------------------------------""");
 
         printSongs(songs);
 
@@ -35,10 +37,6 @@ public class SoundVault {
 
         }
         scanner.close();
-
-
-
-
     }
 
     /*
@@ -58,8 +56,17 @@ public class SoundVault {
     */
     private static int getUserChoice(Scanner scanner) {
 
-        System.out.print("Vælg en mulighed:\n1. Tilføj ny sang\n2. Fjern en sang\n3. Vis alle sang\n4. Søg efter en sang\n" +
-                "5. Rediger en sang\n6. Sorter sanglisten\n7. Afslut programmet\n");
+        System.out.print("""
+                ------------------------------------------
+                Vælg en mulighed:
+                1. Tilføj ny sang
+                2. Fjern en sang
+                3. Vis alle sang
+                4. Søg efter en sang
+                5. Rediger en sang
+                6. Sorter sanglisten
+                7. Afslut programmet
+                """);
 
         int choice = scanner.nextInt();
         scanner.nextLine();
