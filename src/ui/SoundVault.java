@@ -12,9 +12,13 @@ public class SoundVault {
     public static void main (String[] args) {
 
         SongHandler handler = new SongHandler();
+
+        handler.readSongFromFile();
+
+
         Scanner scanner = new Scanner(System.in);
 
-        ArrayList<Song> songs = readSongsFromFile(handler);
+        ArrayList<Song> songs = handler.getSongs();
 
         printSongs(songs);
 
@@ -30,9 +34,9 @@ public class SoundVault {
     /*
      Retrieves songs from file handler
     */
-    private static ArrayList<Song> readSongsFromFile(SongHandler handler) {
-        return handler.getSongs();
-    }
+    //private static ArrayList<Song> readSongFromFile(SongHandler handler) {
+    //    return handler.readSongFromFile();
+    //}
 
     /*
      Prints available songs
@@ -53,7 +57,7 @@ public class SoundVault {
 
         System.out.print("Velkommen til hjemmelavede Spotify! Vælg en mulighed:\n" +
                 "1. Tilføj ny sang\n2. Fjern en sang\n3. Vis alle sang\n4. Søg efter en sang\n" +
-                "5. Søg efter en sang\n6. Rediger en sang\n7. Sorter sanglisten\n8. Afslut programmet\n");
+                "5. Rediger en sang\n6. Sorter sanglisten\n7. Afslut programmet\n");
 
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -82,6 +86,21 @@ public class SoundVault {
             handler.removeSong(remove);
         } else if (choice == 3) {
             printSongs(songs);
+        } else if (choice == 4) {
+            System.out.println("Hvilken sang leder du efter? ");
+            String songName = scanner.nextLine();
+            System.out.println(handler.searchTitle(songName));
+        } else if (choice == 5) {
+            System.out.println("Hvilken sang vil du redigere? ");
+            String oldTitle = scanner.nextLine();
+
+            System.out.println("Nyt navn? ");
+            String newTitle = scanner.nextLine();
+
+            Song song = handler.searchTitle(oldTitle);
+
+            handler.editSong(song, newTitle);
+
         } else {
             System.out.println("Invalid choice.");
         }
