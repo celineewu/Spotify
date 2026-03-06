@@ -9,12 +9,17 @@ import java.util.ArrayList;
 //lader SoundVault stå for kommunikationen med brugeren/Scanner
 public class SongHandler {
 
-    private static final String FILE_PATH = "src\\spotify.txt";
+    private static final String FILE_PATH = "src/spotify.txt";
     private static ArrayList<Song> songs = new ArrayList<>();
 
 
+    //Getter
+    public ArrayList<Song> getSongs() {
+        return songs;
+    }
+
     //Læser sangene fra txt og sætter dem ind i en ArrayList
-    public ArrayList<Song> readSongFromFile() {
+    public void readSongFromFile() {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
 
@@ -34,9 +39,13 @@ public class SongHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return songs;
     }
 
+    //Tilføjer en sang til ArrayListen og txt
+    public void addSong(Song song) {
+        songs.add(song);
+        writeToFile();
+    }
 
     //Denne metode skriver ArrayList<Song> til txt
     public static void writeToFile() {
@@ -67,18 +76,6 @@ public class SongHandler {
         return allSongs;
     }
 
-
-    //Tilføjer en sang til ArrayListen og txt
-    public void addSong(Song song) {
-        songs.add(song);
-        writeToFile();
-    }
-
-    //Getter
-    public ArrayList<Song> getSongs() {
-        return songs;
-    }
-
     //Søger efter en bestemt title i ArrayListen
     public Song searchTitle(String title) {
         for (Song song : songs) {
@@ -89,6 +86,7 @@ public class SongHandler {
         return null;
     }
 
+    //For en bestemt titel og fjerner sangen fra ArrayList og txt
     public ArrayList<Song> removeSong(String title) {
         for (int i = 0; i < songs.size(); i++) {
             if (title.equalsIgnoreCase(songs.get(i).getTitle())) {
@@ -100,6 +98,7 @@ public class SongHandler {
         return null;
     }
 
+    //For en sang og giver den en ny titel
     public void editSong(Song song, String newTitle) {
         song.setTitle(newTitle);
         writeToFile();
