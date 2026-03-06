@@ -11,8 +11,6 @@ public class SoundVault {
 
     public static void main (String[] args) {
 
-        //System.out.println(getSongs(SongHandler());
-
         SongHandler handler = new SongHandler();
         Scanner scanner = new Scanner(System.in);
 
@@ -22,7 +20,7 @@ public class SoundVault {
 
        int choice = getUserChoice(scanner);
 
-       handleChoice(choice, songs, handler);
+       handleChoice(choice, songs, handler, scanner);
 
        scanner.close();
 
@@ -53,9 +51,9 @@ public class SoundVault {
     */
     private static int getUserChoice(Scanner scanner) {
 
-        System.out.print("Velkommen til hjemmelavede Spotify! Vælg en mulighed:\n: " +
-                "1.Tilføj ny sang\n2. Fjern en sang\3. Vis alle sang\nSøg efter en sang\n" +
-                "4. Søg efter en sang\n5. Rediger en sang\n6. Sorter sanglisten\n7. Afslut programmet");
+        System.out.print("Velkommen til hjemmelavede Spotify! Vælg en mulighed:\n" +
+                "1. Tilføj ny sang\n2. Fjern en sang\n3. Vis alle sang\n4. Søg efter en sang\n" +
+                "5. Søg efter en sang\n6. Rediger en sang\n7. Sorter sanglisten\n8. Afslut programmet\n");
 
         return scanner.nextInt();
     }
@@ -65,18 +63,17 @@ public class SoundVault {
     */
     private static void handleChoice(int choice,
                                      ArrayList<String> songs,
-                                     SongHandler handler) {
+                                     SongHandler handler, Scanner scanner) {
 
-        if (choice > 0 && choice <= recipes.size()) {
+        if (choice == 1) {
+            System.out.println("Title: ");
+            String title = scanner.nextLine();
+            System.out.println("Genre: ");
+            String genre = scanner.nextLine();
+            System.out.println("Duration: ");
+            double duration = scanner.nextDouble();
 
-            String selectedRecipe = recipes.get(choice - 1);
 
-            ArrayList<Ingredient> ingredients =
-                    handler.loadRecipe(selectedRecipe);
-
-            handler.writeShoppingList(ingredients);
-
-            System.out.println("Shopping list created successfully.");
 
         } else {
             System.out.println("Invalid choice.");
