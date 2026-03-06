@@ -1,13 +1,13 @@
 package model;
 
-public class FreeUser extends User {
+public class FreeUser extends User{
 
-    public FreeUser (String title) {
-        super(title);
+    public FreeUser(String name){
+        super(name);
     }
 
     @Override
-    public String ads() {
-        return "An ads is playing.";
+    public String ads(){
+        return "Free User: With commercials, not able to download songs.";
     }
 }

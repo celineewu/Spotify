@@ -2,12 +2,12 @@ package model;
 
 public class PremiumUser extends User {
 
-    public PremiumUser(String title) {
-        super(title);
+    public PremiumUser(String name){
+        super(name);
     }
 
     @Override
-    public String ads() {
-        return "No ads";
+    public String ads(){
+        return "Premium User: No commercials, able to download songs.";
     }
 }
