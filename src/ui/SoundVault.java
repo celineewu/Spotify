@@ -1,6 +1,6 @@
 package ui;
 
-import model.User;
+import model.*;
 import service.*;
 
 
@@ -14,7 +14,7 @@ public class SoundVault {
         SongHandler handler = new SongHandler();
         Scanner scanner = new Scanner(System.in);
 
-        ArrayList<String> songs = getSongs(handler);
+        ArrayList<Song> songs = readSongsFromFile(handler);
 
         printSongs(songs);
 
@@ -30,14 +30,14 @@ public class SoundVault {
     /*
      Retrieves songs from file handler
     */
-    private static ArrayList<String> getSongs(SongHandler handler) {
-        return handler.getSongNames();
+    private static ArrayList<Song> readSongsFromFile(SongHandler handler) {
+        return handler.getSongs();
     }
 
     /*
      Prints available songs
     */
-    private static void printSongs(ArrayList<String> songs) {
+    private static void printSongs(ArrayList<Song> songs) {
 
         System.out.println("Songs in your playlist:");
 
@@ -55,28 +55,33 @@ public class SoundVault {
                 "1. Tilføj ny sang\n2. Fjern en sang\n3. Vis alle sang\n4. Søg efter en sang\n" +
                 "5. Søg efter en sang\n6. Rediger en sang\n7. Sorter sanglisten\n8. Afslut programmet\n");
 
-        return scanner.nextInt();
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        return choice;
     }
 
     /*
      Handles user selection logic
     */
     private static void handleChoice(int choice,
-                                     ArrayList<String> songs,
+                                     ArrayList<Song> songs,
                                      SongHandler handler, Scanner scanner) {
 
         if (choice == 1) {
             System.out.println("Title: ");
             String title = scanner.nextLine();
-            System.out.println("Genre: ");
-            String genre = scanner.nextLine();
-            System.out.println("Duration: ");
-            double duration = scanner.nextDouble();
-
-
-
-
-
+            System.out.println("Genre in UPPERCASE: ");
+            String genreInput = scanner.nextLine();
+            Genre genre =  Genre.valueOf(genreInput);
+            Song newSong = new Song(title, genre);
+            handler.addSong(newSong);
+        } else if (choice == 2) {
+            System.out.println("Hvilken sang vil du fjerne? (navn) ");
+            String remove = scanner.nextLine();
+            handler.removeSong(remove);
+        } else if (choice == 3) {
+            printSongs(songs);
         } else {
             System.out.println("Invalid choice.");
         }
