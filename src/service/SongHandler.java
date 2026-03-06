@@ -1,68 +1,97 @@
 package service;
 
 import model.*;
-
 import java.io.*;
 import java.util.ArrayList;
 
+
+//SongHandler holder sig til kommunikationen mellem ArrayList og txt og
+//lader SoundVault stå for kommunikationen med brugeren/Scanner
 public class SongHandler {
 
     private static final String FILE_PATH = "src\\spotify.txt";
+    private static ArrayList<Song> songs = new ArrayList<>();
 
 
-    public ArrayList<String> getSongNames() {
-
-        ArrayList<String> songs = new ArrayList<>();
+    //Læser sangene fra txt og sætter dem ind i en ArrayList
+    public ArrayList<Song> readSongFromFile() {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
 
             String line;
 
             while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
 
-                if (!line.contains(",")) {
-                    songs.add(line);
-                }
+                String title = parts[0];
+                Genre genre = Genre.valueOf(parts[1].trim());
+
+                Song song = new Song(title, genre);
+
+                songs.add(song);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return songs;
     }
 
 
-    public void writeSongList(ArrayList<Song> songs) {
-
-        FileWriter writer = null;
-
+    //Denne metode skriver ArrayList<Song> til txt
+    public static void writeToFile() {
         try {
-
-            writer = new FileWriter("src\\Lesson15\\Recipes\\shopping_list.txt");
+            FileWriter fileWriter = new FileWriter(FILE_PATH);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             for (Song song : songs) {
-
-                // Polymorphism in action
-                writer.write(song.ads());
-
-                // FileWriter has no newLine() method
-                writer.write("\n");
+                bufferedWriter.write(song.toString());
+                bufferedWriter.newLine();
             }
 
-            writer.flush(); // ensure data is written
+            bufferedWriter.close();
 
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
     }
+
+    //Laver sangene i ArrayListen om til en String
+    public String getStringOfSongs() {
+        String allSongs = "";
+
+        for (Song song : songs) {
+            allSongs = allSongs.concat(song.toString() + "\n"); //concatenate: to link together in a series or chain
+        }
+        return allSongs;
+    }
+
+
+    //Tilføjer en sang til ArrayListen og txt
+    public void addSong(Song song) {
+        songs.add(song);
+        writeToFile();
+    }
+
+    //Getter
+    public ArrayList<Song> getSongs() {
+        return songs;
+    }
+
+    //Søger efter en bestemt title i ArrayListen
+    public Song searchTitle(String title) {
+        for (Song song : songs) {
+            if (title.equalsIgnoreCase(song.getTitle())) {
+                return song;
+            }
+
+        }
+        return null;
+    }
+
+    public static void removeSongFromArray(String title) {
+
+    }
+
 }
