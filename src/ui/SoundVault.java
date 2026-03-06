@@ -15,28 +15,31 @@ public class SoundVault {
 
         handler.readSongFromFile();
 
-
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<Song> songs = handler.getSongs();
 
+        System.out.println("Velkommen til hjemmelavede Spotify!");
+
         printSongs(songs);
 
-        int choice = getUserChoice(scanner);
+        while (true) {
 
-        handleChoice(choice, songs, handler, scanner);
+            int choice = getUserChoice(scanner);
 
+            handleChoice(choice, songs, handler, scanner);
+            if (choice == 7) {
+                System.out.println("Tak for nu.");
+                break;
+            }
+
+        }
         scanner.close();
 
 
-    }
 
-    /*
-     Retrieves songs from file handler
-    */
-    //private static ArrayList<Song> readSongFromFile(SongHandler handler) {
-    //    return handler.readSongFromFile();
-    //}
+
+    }
 
     /*
      Prints available songs
@@ -55,8 +58,7 @@ public class SoundVault {
     */
     private static int getUserChoice(Scanner scanner) {
 
-        System.out.print("Velkommen til hjemmelavede Spotify! Vælg en mulighed:\n" +
-                "1. Tilføj ny sang\n2. Fjern en sang\n3. Vis alle sang\n4. Søg efter en sang\n" +
+        System.out.print("Vælg en mulighed:\n1. Tilføj ny sang\n2. Fjern en sang\n3. Vis alle sang\n4. Søg efter en sang\n" +
                 "5. Rediger en sang\n6. Sorter sanglisten\n7. Afslut programmet\n");
 
         int choice = scanner.nextInt();
@@ -71,15 +73,17 @@ public class SoundVault {
     private static void handleChoice(int choice,
                                      ArrayList<Song> songs,
                                      SongHandler handler, Scanner scanner) {
-
-        if (choice == 1) {
+        if (choice <= 0 || choice > 7) {
+            System.out.println("Invalid choice");
+        } else if (choice == 1) {
             System.out.println("Title: ");
             String title = scanner.nextLine();
             System.out.println("Genre in UPPERCASE: ");
             String genreInput = scanner.nextLine();
-            Genre genre =  Genre.valueOf(genreInput);
+            Genre genre = Genre.valueOf(genreInput);
             Song newSong = new Song(title, genre);
             handler.addSong(newSong);
+
         } else if (choice == 2) {
             System.out.println("Hvilken sang vil du fjerne? (navn) ");
             String remove = scanner.nextLine();
@@ -101,12 +105,8 @@ public class SoundVault {
 
             handler.editSong(song, newTitle);
 
-        } else {
-            System.out.println("Invalid choice.");
+        } else if (choice == 6) {
+            System.out.println("Funktion ikke tilgængelig lige nu.");
         }
     }
-
-
-
-
 }
