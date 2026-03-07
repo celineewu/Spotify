@@ -2,10 +2,9 @@ package ui;
 
 import model.*;
 import service.*;
-
-
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Collections;
 
 public class SoundVault {
 
@@ -113,7 +112,8 @@ public class SoundVault {
             handler.editSong(song, newTitle);
 
         } else if (choice == 6) {
-            System.out.println("Funktion ikke tilgængelig lige nu.");
+            Collections.sort(songs);
+            printSongs(songs);
         }
     }
 }
