@@ -3,6 +3,7 @@ package ui;
 import model.*;
 import service.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Collections;
 
@@ -26,7 +27,9 @@ public class SoundVault {
 
         while (true) {
 
-            int choice = getUserChoice(scanner);
+                int choice = getUserChoice(scanner);
+
+
 
             handleChoice(choice, songs, handler, scanner);
             if (choice == 7) {
@@ -67,10 +70,17 @@ public class SoundVault {
                 7. Afslut programmet
                 """);
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();
 
-        return choice;
+        while (true) {
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+                return choice;
+            } catch (InputMismatchException e) {
+                System.out.println("Venligst indtast et tal.");
+                scanner.nextLine();
+            }
+        }
     }
 
     /*
