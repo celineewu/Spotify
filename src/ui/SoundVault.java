@@ -94,9 +94,9 @@ public class SoundVault {
         } else if (choice == 1) {
             System.out.println("Title: ");
             String title = scanner.nextLine();
-            System.out.println("Genre in UPPERCASE: ");
+            System.out.println("Genre: ");
             String genreInput = scanner.nextLine();
-            Genre genre = Genre.valueOf(genreInput);
+            Genre genre = Genre.valueOf(genreInput.toUpperCase());
             Song newSong = new Song(title, genre);
             handler.addSong(newSong);
 
