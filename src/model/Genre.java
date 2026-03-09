@@ -5,8 +5,8 @@ public enum Genre {
     POP,
     JAZZ,
     GRUNGE,
-    FOLK_ROCK,
-    HIP_HOP,
-    SYNTH_POP,
+    FOLKROCK,
+    HIPHOP,
+    SYNTHPOP,
 
 }
