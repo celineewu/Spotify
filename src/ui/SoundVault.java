@@ -2,6 +2,8 @@ package ui;
 
 import model.*;
 import service.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -30,7 +32,6 @@ public class SoundVault {
                 int choice = getUserChoice(scanner);
 
 
-
             handleChoice(choice, songs, handler, scanner);
             if (choice == 7) {
                 System.out.println("Tak for nu.");
@@ -39,6 +40,43 @@ public class SoundVault {
 
         }
         scanner.close();
+    }
+
+    //Genre check
+    public static Genre getGenreInput(Scanner scanner) {
+
+        Genre genre = null;
+
+        while ( genre == null){
+
+            System.out.println("Genre: ");
+            String genreInput = scanner.nextLine();
+
+            try {
+                genre = Genre.valueOf(genreInput.toUpperCase());
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ugyldigt valg. Vælg venligst en gyldig genre.");
+            }
+        }
+        return genre;
+    }
+
+    //Title check
+    public static Song getSongInput(Scanner scanner, SongHandler handler){
+
+        Song song = null;
+
+        while (song == null){
+
+            String title = scanner.nextLine();
+            song = handler.searchTitle(title);
+
+            if (song == null ){
+                System.out.println("Ugyldigt valg. Prøv igen.");
+            }
+        }
+        return song;
     }
 
     /*
@@ -94,30 +132,26 @@ public class SoundVault {
         } else if (choice == 1) {
             System.out.println("Title: ");
             String title = scanner.nextLine();
-            System.out.println("Genre: ");
-            String genreInput = scanner.nextLine();
-            Genre genre = Genre.valueOf(genreInput.toUpperCase());
+            Genre genre = getGenreInput(scanner);
             Song newSong = new Song(title, genre);
             handler.addSong(newSong);
 
         } else if (choice == 2) {
             System.out.println("Hvilken sang vil du fjerne? (navn) ");
-            String remove = scanner.nextLine();
-            handler.removeSong(remove);
+            Song song = getSongInput (scanner, handler);
+            handler.removeSong(song.getTitle());
         } else if (choice == 3) {
             printSongs(songs);
         } else if (choice == 4) {
             System.out.println("Hvilken sang leder du efter? ");
-            String songName = scanner.nextLine();
-            System.out.println(handler.searchTitle(songName));
+            Song song = getSongInput (scanner, handler);
+            System.out.println(song);
         } else if (choice == 5) {
             System.out.println("Hvilken sang vil du redigere? ");
-            String oldTitle = scanner.nextLine();
+            Song song = getSongInput (scanner, handler);
 
             System.out.println("Nyt navn? ");
             String newTitle = scanner.nextLine();
-
-            Song song = handler.searchTitle(oldTitle);
 
             handler.editSong(song, newTitle);
 
