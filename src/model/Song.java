@@ -3,7 +3,6 @@ package model;
 public class Song implements Comparable<Song>{
     private String title;
     private Genre genre;
-    private double time;
 
     public Song(String title, Genre genre) {
         this.title = title;
