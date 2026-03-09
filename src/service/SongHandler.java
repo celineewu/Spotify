@@ -98,36 +98,10 @@ public class SongHandler {
         return null;
     }
 
-    //For en sang og giver den en ny titel
+    //Metoden tager en sang og giver den en ny titel
     public void editSong(Song song, String newTitle) {
         song.setTitle(newTitle);
         writeToFile();
     }
-
-
-
-
-    /*public ArrayList<String> getSongNames() {
-
-        ArrayList<String> songs = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-
-                if (!line.contains(",")) {
-                    songs.add(line);
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return songs;
-    }
-*/
 
 }
