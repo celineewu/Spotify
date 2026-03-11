@@ -21,6 +21,8 @@ public class SoundVault {
 
         ArrayList<Song> songs = handler.getSongs();
 
+        user(scanner);
+
         System.out.println("""
                 Velkommen til hjemmelavede Spotify!
                 ------------------------------------------""");
@@ -40,6 +42,27 @@ public class SoundVault {
 
         }
         scanner.close();
+    }
+
+    //Creates the user
+    public static void user(Scanner scan) {
+        System.out.print("Indtast dit navn: ");
+        String name = scan.nextLine();
+        System.out.println("Hvilken type bruger er du?\n1.FreeUser\n2.PremiumUser");
+        String input = scan.nextLine();
+
+        switch (input.toLowerCase()) {
+            case "1":
+                FreeUser freeUser = new FreeUser(name);
+                System.out.println(freeUser.ads());
+                break;
+            case "2":
+                PremiumUser premiumUser = new PremiumUser(name);
+                System.out.println(premiumUser.ads());
+                break;
+            default:
+                System.out.println("Ukendt input");
+        }
     }
 
     //Genre check
